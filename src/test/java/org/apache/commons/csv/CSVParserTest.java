@@ -50,6 +50,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+import org.apache.commons.csv.issues.JiraCsv248Test;
 import org.apache.commons.io.input.BOMInputStream;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -79,7 +80,8 @@ public class CSVParserTest {
         {"foo\n,,\n\",,\n\"", "d", "e"}};
 
     private BOMInputStream createBOMInputStream(final String resource) throws IOException {
-        final URL url = ClassLoader.getSystemClassLoader().getResource(resource);
+        //final URL url = ClassLoader.getSystemClassLoader().getResource(resource);
+        final URL url = CSVParserTest.class.getClassLoader().getResource(resource);
         return new BOMInputStream(url.openStream());
     }
 
@@ -974,8 +976,9 @@ public class CSVParserTest {
 
     @Test
     public void testParse() throws Exception {
-        final ClassLoader loader = ClassLoader.getSystemClassLoader();
-        final URL url = loader.getResource("org/apache/commons/csv/CSVFileParser/test.csv");
+        //final ClassLoader loader = ClassLoader.getSystemClassLoader();
+        //final URL url = loader.getResource("org/apache/commons/csv/CSVFileParser/test.csv");
+        final URL url = JiraCsv248Test.class.getClassLoader().getResource("org/apache/commons/csv/CSVFileParser/test.csv");
         final CSVFormat format = CSVFormat.DEFAULT.withHeader("A", "B", "C", "D");
         final Charset charset = StandardCharsets.UTF_8;
 

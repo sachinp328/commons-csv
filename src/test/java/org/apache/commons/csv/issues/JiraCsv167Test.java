@@ -31,9 +31,10 @@ import org.junit.jupiter.api.Test;
 
 public class JiraCsv167Test {
 
-    private Reader getTestReader() {
-        return new InputStreamReader(
-            ClassLoader.getSystemClassLoader().getResourceAsStream("org/apache/commons/csv/csv-167/sample1.csv"));
+    private Reader getTestReader() throws IOException {
+//        return new InputStreamReader(
+//            ClassLoader.getSystemClassLoader().getResourceAsStream("org/apache/commons/csv/csv-167/sample1.csv"));
+        return new InputStreamReader(JiraCsv167Test.class.getClassLoader().getResource("org/apache/commons/csv/csv-167/sample1.csv").openStream());
     }
 
     @Test

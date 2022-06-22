@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -30,8 +31,9 @@ import org.apache.commons.csv.CSVRecord;
 import org.junit.jupiter.api.Test;
 
 public class JiraCsv248Test {
-    private static InputStream getTestInput() {
-        return ClassLoader.getSystemClassLoader().getResourceAsStream("org/apache/commons/csv/CSV-248/csvRecord.bin");
+    private static InputStream getTestInput() throws IOException {
+        //return ClassLoader.getSystemClassLoader().getResourceAsStream("org/apache/commons/csv/CSV-248/csvRecord.bin");
+        return JiraCsv248Test.class.getClassLoader().getResource("org/apache/commons/csv/CSV-248/csvRecord.bin").openStream();
     }
 
     /**
@@ -51,7 +53,8 @@ public class JiraCsv248Test {
         // CSVFormat.DEFAULT.builder().setHeader().setCommentMarker('#'))) {
         // CSVRecord rec = parser.iterator().next();
         // }
-        try (InputStream in = getTestInput(); final ObjectInputStream ois = new ObjectInputStream(in)) {
+        try (InputStream in = getTestInput();
+             final ObjectInputStream ois = new ObjectInputStream(in)) {
             final Object object = ois.readObject();
             assertTrue(object instanceof CSVRecord);
             final CSVRecord rec = (CSVRecord) object;
