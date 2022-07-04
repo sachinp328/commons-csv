@@ -1,16 +1,10 @@
 ---
 # THIS IS A SAMPLE ".tas.yml" CONFIGURATION FILE
 
-##36 FIRSTLY - You need to specify which testing framework you are using. Currently supported JS frameworks are : mocha, jest and jasmine.
+##37 FIRSTLY - You need to specify which testing framework you are using. Currently supported JS frameworks are : mocha, jest and jasmine.
 framework: junit # mocha # framework should be as per your project
 frameworkVersion: 5
-blocklist:
-  - org.apache.commons.csv.issues.JiraCsv248Test#testJiraCsv248
-  - org.apache.commons.csv.CSVParserTest#testBOMInputStream_ParserWithInputStream
-  - org.apache.commons.csv.CSVParserTest#testParse
-  - org.apache.commons.csv.CSVParserTest#testBOMInputStream_parseWithReader
-  - org.apache.commons.csv.CSVParserTest#testBOMInputStream_ParserWithReader
-  - org.apache.commons.csv.issues.JiraCsv167Test#parse
+
 preRun:
   # SECONDLY - You need to set the preRun commands. These are shell commands executed inside the root level of your git repository before running the tests. preRun commands are executed using non-login shells by default, so you must explicitly source any dotfiles as part of the command.
   command:
