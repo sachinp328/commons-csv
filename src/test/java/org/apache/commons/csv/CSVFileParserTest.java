@@ -33,27 +33,16 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
  * Parse tests using test files
  */
 public class CSVFileParserTest {
 
-    private static final File BASE_DIR = new File("src/test/resources/org/apache/commons/csv/CSVFileParser");
 
-    public static Stream<File> generateData() {
-        final File[] files = BASE_DIR.listFiles((dir, name) -> name.startsWith("test") && name.endsWith(".txt"));
-        return files != null ? Stream.of(files) : Stream.empty();
-    }
-
-    private String readTestData(final BufferedReader reader) throws IOException {
-        String line;
-        do {
-            line = reader.readLine();
-        } while (line != null && line.startsWith("#"));
-        return line;
-    }
 
     @ParameterizedTest
     @MethodSource("generateData")
@@ -98,6 +87,79 @@ public class CSVFileParserTest {
                 }
             }
         }
+    }
+
+    private static final File BASE_DIR = new File("src/test/resources/org/apache/commons/csv/CSVFileParser");
+    public static Stream<File> generateData() {
+        final File[] files = BASE_DIR.listFiles((dir, name) -> name.startsWith("test") && name.endsWith(".txt"));
+        System.out.println(BASE_DIR.getAbsolutePath());
+        System.out.println(files.length);
+        return files != null ? Stream.of(files) : Stream.empty();
+    }
+
+    private String readTestData(final BufferedReader reader) throws IOException {
+        String line;
+        do {
+            line = reader.readLine();
+        } while (line != null && line.startsWith("#"));
+        return line;
+    }
+
+    public static boolean isOdd(int number) {
+        return number % 2 != 0;
+    }
+    @ParameterizedTest
+    @ValueSource(ints = {1, 3, 5, -3, 15, Integer.MAX_VALUE}) // six numbers
+    void isOdd_ShouldReturnTrueForOddNumbers(int number) {
+        assertTrue(isOdd(number));
+    }
+
+    public static int[][] dataSetForAdd() {
+        return new int[][] { { 1 , 2, 3 }, { 2, 4, 6 }, { 121, 4, 125 } };
+    }
+
+    public static int[][] dataSetForSubtract() {
+        return new int[][] { { 1 , 2, -1 }, { 2, 4, -2 }, { 121, 4, 117 } };
+    }
+
+    @ParameterizedTest
+    @MethodSource(value = "dataSetForAdd")
+    void testCalculatorAddMethod(int[] dataSetForAdd) {
+        int m1 = dataSetForAdd[0];
+        int m2 = dataSetForAdd[1];
+        int expected = dataSetForAdd[2];
+        assertEquals(expected, m1+m2);
+    }
+
+    @ParameterizedTest(name = "{index} => a={0}, b={1}, sum={2}")
+    @CsvSource({
+            "5, 3, 8",
+            "1, 3, 4",
+            "6, 6, 12",
+            "2, 3, 5"
+    })
+    void sum(int a, int b, int sum) {
+        assertEquals(sum, a+b );
+    }
+
+    @ParameterizedTest(name = "{index} => a={0}, b={1}, sum={2}")
+    @CsvSource({
+            "5, 3, 53",
+            "1, 3, 13",
+            "6, 6, 66",
+            "2, 3, 23"
+    })
+    void addString(String a, String b, String sum) {
+        assertEquals(sum, a+b );
+    }
+
+    @ParameterizedTest
+    @MethodSource(value = "dataSetForSubtract")
+    void testCalculatorSubMethod(int[] dataSetForSubtract) {
+        int m1 = dataSetForSubtract[0];
+        int m2 = dataSetForSubtract[1];
+        int expected = dataSetForSubtract[2];
+        assertEquals(expected, m1-m2);
     }
 
     @ParameterizedTest
