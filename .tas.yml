@@ -10,8 +10,8 @@ preRun:
   command:
     - echo $JAVA_HOME
     - echo $PATH
-    - mvn compile -Drat.numUnapprovedLicenses=100
-    - mvn test-compile -Drat.numUnapprovedLicenses=100
+#     - mvn compile -Drat.numUnapprovedLicenses=100
+#     - mvn test-compile -Drat.numUnapprovedLicenses=100
 
 postMerge:
   # THIRDLY - You need to set postMerge patterns.
